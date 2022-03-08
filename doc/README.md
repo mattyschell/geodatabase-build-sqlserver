@@ -10,14 +10,26 @@ Microsoft says: "Version 17.9.1 is the latest general availability (GA) version 
 
 ESRI says: "Supported SQL Server clients" are SQL Server 2019 (any version) and Microsoft ODBC Driver 17 for SQL Server
 
-I say:
+I say: Go [here](https://docs.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver15) and download _Microsoft ODBC Driver 17 for SQL Server (x64)_
 
-1. Go [here](https://docs.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver15) and download _Microsoft ODBC Driver 17 for SQL Server (x64)_
-2. Go [here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and scroll down to _download a free specialized edition_. Download and install _SQL Server 2019 Developer_
+## Install SQL Server
+
+1. Go [here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and scroll down to _download a free specialized edition_. 
+2. Download and install _SQL Server 2019 Developer_
 3. Go here [here](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?redirectedfrom=MSDN&view=sql-server-ver15) and install _SQL Server Management Studio_.  
 
 
-![drakeisthesqlserverofmusic](https://github.com/mattyschell/geodatabase-build-sqlserver/doc/sqlserver2019.PNG)
+![drakeisthesqlserverofmusic](https://github.com/mattyschell/geodatabase-build-sqlserver/blob/main/doc/sqlserver2019.PNG)
+
+
+## Install Another Server
+
+This can be helpul when performing development work.  For example, you may have set up a server with Windows authentication and would like to compare with mixed mode (both Windows authentication and login/password).    
+
+1. Start - Microsoft SQL Server 2019 - SQL Server 2019 Installation Center
+2. Select the installation menu
+3. Select New SQL Server stand-alone installation
+
 
 
 ## sqlcmd: Not great, even if you're into this sort of thing
