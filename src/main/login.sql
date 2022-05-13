@@ -1,7 +1,0 @@
-USE [master]
-GO
-
-CREATE LOGIN [$(dbologin)] WITH PASSWORD=[$(dbopass)], DEFAULT_DATABASE=[$(dbname)], DEFAULT_LANGUAGE=[us_english], CHECK_EXPIRATION=ON, CHECK_POLICY=ON
-GO
-
-

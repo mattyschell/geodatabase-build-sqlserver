@@ -24,11 +24,13 @@ I say: Go [here](https://docs.microsoft.com/en-us/sql/connect/odbc/download-odbc
 
 ## Install Another Server
 
-This can be helpul when performing development work.  For example, you may have set up a server with Windows authentication and would like to compare with mixed mode (both Windows authentication and login/password).    
+This can be helpul when performing development work, or when you (aka me) inevitably forget how to connect to the mess you set up in the past.  For example, you may have set up a server with Windows authentication and would like to compare with mixed mode.
 
 1. Start - Microsoft SQL Server 2019 - SQL Server 2019 Installation Center
 2. Select the installation menu
 3. Select New SQL Server stand-alone installation
+
+When prompted for installation media point the thing to something like C:\SQL2019\Developer_ENU.  
 
 
 
