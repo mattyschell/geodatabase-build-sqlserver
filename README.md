@@ -39,10 +39,21 @@ Requires a system administrator connection. Set the first environmental to the d
 
 ## Create Users
 
-[ESRI create user tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) require system administrator users which we do not expect to have in production systems.  Users will instead connect to Enterprise Geodatabases in SQL Server via windows groups (ex domain\database_developers) and then create data under auto-created schemas like "domain\jdoe.countyboundaries"
+[ESRI create user tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we shouldn't expect in production systems. When planning a more systematic approach to data management in Enterprise Geodatabases on SQLServer know that:
 
-[Alter schema](https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-schema-transact-sql?redirectedfrom=MSDN&view=sql-server-ver15)
- to move data into sensible schemas.
+* All users must have a schema
+* User names and schema names must be identical
+
+We'll expect read-only and ad hoc users to connect to Enterprise Geodatabases in SQL Server via Windows groups (ex domain\jdoe).  If necessary these users will create data under wretched auto-created schemas like "domain\jdoe.countyboundaries."
+
+For more formal data management create a development environment user and schema using this.
+
+
+
+
+
+
+
 
 
 
