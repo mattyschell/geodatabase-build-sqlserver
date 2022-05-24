@@ -4,7 +4,7 @@ We will create an ESRI Enterprise Geodatabase on SQL Server.  Friends, this our 
 
 Big facts:
 
-* We prefer Windows authentication but support SQL Server authentication  
+* We prefer Windows authentication for users and support SQL Server authentication for applications
 * We create dbo-schema geodatabases, not sde-schema geodatabases ([pros, cons](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/comparison-geodatabase-owners-sqlserver.htm))
 * We mainly grant access to SQL Server databases from Active Directory groups to individual database user schemas.  
 
@@ -39,14 +39,25 @@ Requires a system administrator connection. Set the first environmental to the d
 
 ## Create Users
 
-[ESRI create user tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we shouldn't expect in production systems. When planning a more systematic approach to data management in Enterprise Geodatabases on SQLServer know that:
+[ESRI's user creation tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we don't expect to have access to in production systems. When planning a systematic approach to data management in ESRI Enterprise Geodatabases on SQLServer know that:
 
 * All users must have a schema
 * User names and schema names must be identical
 
-We'll expect read-only and ad hoc users to connect to Enterprise Geodatabases in SQL Server via Windows groups (ex domain\jdoe).  If necessary these users will create data under wretched auto-created schemas like "domain\jdoe.countyboundaries."
+We'll expect read-only and ad hoc users to connect to Enterprise Geodatabases in SQL Server with Windows groups (ex domain\jdoe).  If necessary these users will create data under wretched auto-created schemas like "domain\jdoe.countyboundaries."
 
-For more formal data management create a development environment user and schema using this.
+On a local development PC create a mock login, user, and schema with dummy password PostGISIsMyDatabae! here:
+
+
+```bat
+>set DBUSER=depravedapplication
+>set DBNAME=XXX_yyyyyy_Zzz
+>set SQLCMDSERVER=localhost\POTATO
+>set SQLCMDDBNAME=master
+>set SQLCMDUSER=sysadminuser
+>set SQLCMDPASSWORD=postgisismydatabae!
+>createuser.bat 
+```
 
 
 

@@ -11,5 +11,3 @@ if errorlevel 1 (
 ) else (
     echo. success!
 )
-
-
