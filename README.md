@@ -37,7 +37,7 @@ Requires a system administrator connection. Set the first environmental to the d
 ```
 
 
-## Create Users
+## Create Users - Local Dev 
 
 [ESRI's user creation tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we don't expect to have access to in production systems. When planning a systematic approach to data management in ESRI Enterprise Geodatabases on SQLServer know that:
 
@@ -58,6 +58,23 @@ On a local development PC create a mock login, user, and schema with dummy passw
 >set SQLCMDPASSWORD=postgisismydatabae!
 >createuser.bat 
 ```
+
+## Create Users On Real Infrastrucutre
+
+When system admins provide new logins on a server and database  we must complete additional steps to make the new login ready for ESRI.
+
+Don't be afraid to click to success in SQL Server Management Studio, this is the way. As DBO:
+
+1. Under the database name expand "Security"
+2. Right click on "Schemas" and select "New Schema" 
+3. Create a schema name that matches the new login name.  Make the new login the schema owner
+4. Under the server expand "Security" and "Logins"
+5. Right click the new login, select "Properties"
+6. Select the "User Mapping" page
+7. The new user should be mapped to the database
+8. Change the default schema mapping to the new schema with the same name as the user
+
+
 
 
 
