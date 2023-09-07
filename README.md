@@ -61,19 +61,30 @@ On a local development PC create a mock login, user, and schema with dummy passw
 
 ## Create Users On Real Infrastrucutre
 
-When system admins provide new logins on a server and database  we must complete additional steps to make the new login ready for ESRI.
+When system admins provide new logins on a server and database we must complete additional steps to make the new login ready for ESRI.
 
 Don't be afraid to click to success in SQL Server Management Studio, this is the way. As DBO:
 
 1. Under the database name expand "Security"
 2. Right click on "Schemas" and select "New Schema" 
-3. Create a schema name that matches the new login name.  Make the new login the schema owner
-4. Under the server expand "Security" and "Logins"
-5. Right click the new login, select "Properties"
-6. Select the "User Mapping" page
-7. The new user should be mapped to the database
-8. Change the default schema mapping to the new schema with the same name as the user
+3. Enter a schema name that matches the login name.  
+4. Make the new login the schema owner.  Use the Search box to be sure it is good.
 
+If the DBO user has permission to alter other logins:
+
+5. Under the server expand "Security" and "Logins"
+6. Right click the login, select "Properties"
+7. Select the "User Mapping" page
+8. Verify that the new login is mapped to the database
+9. Change the default schema mapping to the new schema with the same name as the user
+
+If the DBO does not have permission, connect as the new login
+
+5. Under the server expand "Security" and "Logins"
+6. Right click on the current login, probably the only one visible, select properties
+7. Select the "User Mapping" page
+8. Verify that the new login is mapped to the database
+9. Change the default schema mapping to the new schema with the same name as the user
 
 
 
