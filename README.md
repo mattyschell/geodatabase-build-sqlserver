@@ -61,30 +61,42 @@ On a local development PC create a mock login, user, and schema with dummy passw
 
 ## Create Users On Real Infrastrucutre
 
-When system admins provide new logins on a server and database we must complete additional steps to make the new login ready for ESRI.
+When system admins provide new logins on a server and database we must complete additional steps to make the new login ready for ESRI. Don't be afraid to click to success in SQL Server Management Studio, this is the way.
 
-Don't be afraid to click to success in SQL Server Management Studio, this is the way. As DBO:
+
+If you have just created the enterprise geodatabase, first map logins to users
+
+1. From the top level expand "Security"
+2. Expand "Logins"
+3. Double click a login and select the "User Mapping" page
+4. Map the login to the database and a user with the same name
+5. Leave default schema as dbo or empty for now
+
+ As DBO or sysadmin:
 
 1. Under the database name expand "Security"
 2. Right click on "Schemas" and select "New Schema" 
 3. Enter a schema name that matches the login name.  
 4. Make the new login the schema owner.  Use the Search box to be sure it is good.
 
-If the DBO user has permission to alter other logins:
+If the DBO user is sysadmin or has permission to alter other logins:
 
 5. Under the server expand "Security" and "Logins"
 6. Right click the login, select "Properties"
 7. Select the "User Mapping" page
 8. Verify that the new login is mapped to the database
 9. Change the default schema mapping to the new schema with the same name as the user
+10. Under "database role membership" for the selected database check db_owner
 
-If the DBO does not have permission, connect as the new login
+If the admin user does not have permission, connect as the new login
 
 5. Under the server expand "Security" and "Logins"
 6. Right click on the current login, probably the only one visible, select properties
 7. Select the "User Mapping" page
 8. Verify that the new login is mapped to the database
 9. Change the default schema mapping to the new schema with the same name as the user
+10. (if possible) Under "database role membership" for the selected database check db_owner
+
 
 
 
