@@ -23,6 +23,8 @@ See supplemental readme [How Do I SQL Server](https://github.com/mattyschell/geo
 
 ## Create an Enterprise Geodatabase
 
+Usually it is best to use the ESRI GUI tool.  If for some reason you want to create the geodatabase the hard way here you go.
+
 Requires a system administrator connection. Set the first environmental to the database you wish to create. Here are the [ESRI docs](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/setup-geodatabase-sqlserver.htm#GUID-4CA44E01-D866-4561-A2E5-FAD424AD9ECD)
 
 
@@ -36,8 +38,7 @@ Requires a system administrator connection. Set the first environmental to the d
 >setup.bat %SQLCMDSERVER% %DBNAME% %AUTHFILE%
 ```
 
-
-## Create Users - Local Dev 
+## Create Users 
 
 [ESRI's user creation tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we don't expect to have access to in production systems. When planning a systematic approach to data management in ESRI Enterprise Geodatabases on SQLServer know that:
 
@@ -46,8 +47,8 @@ Requires a system administrator connection. Set the first environmental to the d
 
 We'll expect read-only and ad hoc users to connect to Enterprise Geodatabases in SQL Server with Windows groups (ex domain\jdoe).  If necessary these users will create data under wretched auto-created schemas like "domain\jdoe.countyboundaries."
 
+### Create Users For Local Development
 On a local development PC create a mock login, user, and schema with dummy password PostGISIsMyDatabae! here:
-
 
 ```bat
 >set DBUSER=depravedapplication
@@ -59,10 +60,9 @@ On a local development PC create a mock login, user, and schema with dummy passw
 >createuser.bat 
 ```
 
-## Create Users On Real Infrastrucutre
+## Create Users On Real Infrastructure
 
 When system admins provide new logins on a server and database we must complete additional steps to make the new login ready for ESRI. Don't be afraid to click to success in SQL Server Management Studio, this is the way.
-
 
 If you have just created the enterprise geodatabase, first map logins to users
 
@@ -72,7 +72,7 @@ If you have just created the enterprise geodatabase, first map logins to users
 4. Map the login to the database and a user with the same name
 5. Leave default schema as dbo or empty for now
 
- As DBO or sysadmin:
+As DBO or sysadmin:
 
 1. Under the database name expand "Security"
 2. Right click on "Schemas" and select "New Schema" 
@@ -88,7 +88,7 @@ If the DBO user is sysadmin or has permission to alter other logins:
 9. Change the default schema mapping to the new schema with the same name as the user
 10. Under "database role membership" for the selected database check db_owner
 
-If the admin user does not have permission, connect as the new login
+If your best available admin user does not have permission, connect as the new login and configure it yourself.
 
 5. Under the server expand "Security" and "Logins"
 6. Right click on the current login, probably the only one visible, select properties
@@ -97,7 +97,17 @@ If the admin user does not have permission, connect as the new login
 9. Change the default schema mapping to the new schema with the same name as the user
 10. (if possible) Under "database role membership" for the selected database check db_owner
 
+## Connecting ESRI clients
 
+If connecting to an Availability Group Listener in SQL Server Always On review the documentation here:
+
+https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-sql-server/connections-highly-available-sqlserver.htm
+
+You will likely need to configure your client geodatabase connection "Instance" with this syntax:
+
+    SERVERNAME.xxx.yyy.zzz;APPLICATIONINTENT=READONLY;MULTISUBNETFAILOVER=YES
+
+This APPLICATIONINTENT does not prevent writes. It is designed to fail fast at connection time with the correct server configuration.
 
 
 
