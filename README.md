@@ -5,7 +5,7 @@ We will create an ESRI Enterprise Geodatabase on SQL Server.  Friends, this our 
 Big facts:
 
 * We prefer Windows authentication for users and support SQL Server authentication for applications
-* We create dbo-schema geodatabases, not sde-schema geodatabases ([pros, cons](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/comparison-geodatabase-owners-sqlserver.htm))
+* We create dbo-schema geodatabases, not sde-schema geodatabases ([pros, cons](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-sql-server/comparison-geodatabase-owners-sqlserver.htm))
 * We mainly grant access to SQL Server databases from Active Directory groups to individual database user schemas.  
 
 
@@ -18,14 +18,71 @@ Big facts:
 
 ## Install SQL Server 
 
-See supplemental readme [How Do I SQL Server](https://github.com/mattyschell/geodatabase-build-sqlserver/blob/main/doc/README.md)
+See supplemental README.md [How Do I SQL Server](https://github.com/mattyschell/geodatabase-build-sqlserver/blob/main/doc/README.md) in doc/ 
 
 
 ## Create an Enterprise Geodatabase
 
-Usually it is best to use the ESRI GUI tool.  If for some reason you want to create the geodatabase the hard way here you go.
+### Skip This If Possible: Update Windows Registry
 
-Requires a system administrator connection. Set the first environmental to the database you wish to create. Here are the [ESRI docs](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/setup-geodatabase-sqlserver.htm#GUID-4CA44E01-D866-4561-A2E5-FAD424AD9ECD)
+This is for localhost scratch development. ArcGIS Pro doesn't accept a "trust certificate chain" override which will be necessary. Skip this if possible.
+
+1. Open regedit with administrator rights.
+2. Navigate to Computer\HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Driver 18 for SQL Server
+3. Add string "Encrypt" with value "yes"
+4. Add string "TrustServerCertificate" with value "yes"
+5. If open close ArcGIS Pro and any command prompts
+
+Make a test database for ArcGIS Pro. We can't connect to system databases from ArcGIS Pro. 
+
+```
+C:\Users\jdangermond>sqlcmd -C
+1> CREATE DATABASE testdb;
+2> go
+1> exit
+```
+
+Try to create a new database connection to testdb. Instance works as "." but not as localhost for some reason.
+
+![dbconnection](doc/dbconnection.PNG)
+
+### Create an Enterprise Geodatabase
+
+Usually it is best to use the ESRI GUI tool. This is "You are the SQL Server and geodatabase administrator" in [ESRI documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-sql-server/setup-geodatabase-sqlserver.htm). SQL Server DBAs are chill about temporarily granting sysadmin.
+
+This one prefers localhost, does not like "."
+
+![createdb](doc/createdb.PNG)
+
+If successful, connect.
+
+![createdb](doc/connect.PNG)
+
+
+### Prepare for User Connections
+
+To create users with passwords the database host will need to be set as "mixed mode." 
+
+1. From SQL Server Management Studio 
+2. Right click on the host 
+3. Go to the "Security" tab select "SQL Server and Windows Authentication mode." 
+4. Open SQL Server Configuration Manager restart the service. 
+
+If you plan to connect to this database from somewhere else on the network make sure that SQLServer is accepting connections. 
+
+1. Open SQL Server Configuration Manager
+2. Expand SQL Server Network Configuration
+3. Click on "Protocols for XXX"
+4. Set "Named Pipes" to Enabled
+5. Set TCP/IP to Enabled
+6. Restart the service
+
+
+### The hard way: Create an Enterprise Geodatabase
+
+If for some reason you want to create the enterprise geodatabase the hard way here you go. The scripts below have lied fallow for a bit.
+
+Requires a system administrator connection. Set the first environmental to the database you wish to create. Here are the [ESRI docs](https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/manage-sql-server/setup-geodatabase-sqlserver.htm)
 
 
 ```bat
@@ -40,12 +97,11 @@ Requires a system administrator connection. Set the first environmental to the d
 
 ## Create Users 
 
-[ESRI's user creation tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we don't expect to have access to in production systems. When planning a systematic approach to data management in ESRI Enterprise Geodatabases on SQLServer know that:
+[ESRI's user creation tools](https://pro.arcgis.com/en/pro-app/2.8/help/data/geodatabases/manage-sql-server/add-users-sqlserver.htm) must be run by system administrators which we may not have indefinite access to in production systems. When planning a systematic approach to data management in ESRI Enterprise Geodatabases on SQLServer know that:
 
 * All users must have a schema
 * User names and schema names must be identical
 
-We'll expect read-only and ad hoc users to connect to Enterprise Geodatabases in SQL Server with Windows groups (ex domain\jdoe).  If necessary these users will create data under wretched auto-created schemas like "domain\jdoe.countyboundaries."
 
 ### Create Users For Local Development
 On a local development PC create a mock login, user, and schema with dummy password PostGISIsMyDatabae! here:

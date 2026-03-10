@@ -18,17 +18,18 @@ class Gdb(object):
               ,authfile):
             
         try:
-            out = arcpy.management.CreateEnterpriseGeodatabase(self.platform
-                                                              ,self.server
-                                                              ,self.database
-                                                              ,'DATABASE_AUTH'
-                                                              ,dbadmin
-                                                              ,pdbadmincreds
-                                                              ,'DBO_SCHEMA'
-                                                              ,'' #gdb_admin_name
-                                                              ,'' #gdb_admin_password
-                                                              ,'' #tablespace_name
-                                                              ,authfile)
+            out = arcpy.management.CreateEnterpriseGeodatabase(
+                 self.platform
+                ,self.server
+                ,self.database
+                ,'DATABASE_AUTH'
+                ,dbadmin
+                ,pdbadmincreds
+                ,'DBO_SCHEMA'
+                ,'' #gdb_admin_name
+                ,'' #gdb_admin_password
+                ,'' #tablespace_name
+                ,authfile)
         
         except:
             print ("{0}".format(arcpy.GetMessages()))
