@@ -52,11 +52,11 @@ Usually it is best to use the ESRI GUI tool. This is "You are the SQL Server and
 
 This one prefers localhost, does not like "."
 
-![createdb](doc/createdb.PNG)
+![createdb](doc/createdb.png)
 
 If successful, connect.
 
-![createdb](doc/connect.PNG)
+![createdb](doc/connect.png)
 
 
 ### Prepare for User Connections
